@@ -1,0 +1,20 @@
+Package: fred
+Title: Economic Indicators Tracked by the US Federal Reserve
+Version: 0.1.0.9000
+Date: 2015-08-18
+Authors@R: person(
+  "Adam", "Acosta",
+  email = "adam.acosta@gatech.edu",
+  role = c("aut", "cre"))
+Description: Includes the datasets money, credit, assets, and capacity, which
+  respectively contains the US money supply, consumer credit balances, Fed
+  balance sheet assets, and industrial capacity and utilization.
+License: CC0
+LazyData: TRUE
+Depends:
+  R (>= 3.2.0)
+Suggests:
+  dplyr,
+  tidyr,
+  lubridate
+URL: http://github.com/adamacosta/fred

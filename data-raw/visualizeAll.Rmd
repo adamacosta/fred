@@ -1,0 +1,72 @@
+---
+title: "Fed-Reported Econonomic Indicators"
+output: html_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+knitr::knit_hooks$set(htmlcap = function(before, options, envir) {
+    if (!before) {
+        paste0('<p class="caption">', options$htmlcap, '</p>')
+    }
+})
+```
+
+```{r}
+library(ggvis)
+library(zoo)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+```
+
+```{r, htmlcap = 'Figure 1. Consumer credit balances'}
+read.csv('clean/cleanCredit.csv') %>%
+    na.locf(fromLast = FALSE, na.rm = FALSE) %>%
+    gather(type, amount, -period) %>%
+    mutate(period = ymd(period), amount = as.numeric(amount)) %>%
+    mutate(amount = ifelse(is.na(amount), 0, amount)) %>%
+    ggvis(~period, ~amount, stroke = ~type) %>%
+    layer_lines() %>%
+    add_axis('y', title_offset = 80, title = 'millions USD')
+```
+
+```{r, htmlcap = 'Figure 2. Fed balance sheet assets'}
+read.csv('clean/cleanAssets.csv') %>%
+    mutate(period = ymd(period), assets = as.numeric(assets)) %>%
+    ggvis(~period, ~assets) %>%
+    layer_lines(stroke := 'steelblue') %>%
+    add_axis('y', title_offset = 80, title = 'millions USD')
+```
+
+```{r, htmlcap = 'Figure 3. Money supply'}
+read.csv('clean/cleanMoney.csv') %>%
+    gather(measure, usd, -period) %>%
+    mutate(period = ymd(period), usd = as.numeric(usd)) %>%
+    mutate(usd = ifelse(is.na(usd), 0, usd)) %>%
+    ggvis(~period, ~usd, stroke = ~measure) %>%
+    layer_lines() %>%
+    add_axis('y', title_offset = 80, title = 'millions USD')
+```
+
+```{r, htmlcap = 'Figure 4. Industial capacity utilization'}
+indCap <- read.csv('clean/cleanIndCap.csv')
+
+indCap %>%
+    select(period, utilization) %>%
+    mutate(period = ymd(period), utilization = as.numeric(utilization)) %>%
+    ggvis(~period, ~utilization) %>%
+    layer_lines(stroke := 'steelblue') %>%
+    add_axis('y', title_offset = 50, title = 'percent utilization')
+```
+
+```{r, htmlcap = 'Figure 5. Industrial capacity'}
+indCap %>%
+    select(-utilization) %>%
+    gather(measure, index, -period) %>%
+    mutate(period = ymd(period), index = as.numeric(index)) %>%
+    mutate(index = ifelse(is.na(index), 0, index)) %>%
+    ggvis(~period, ~index, stroke = ~measure) %>%
+    layer_lines() %>%
+    add_axis('y', title_offset = 80, title = 'index')
+```
