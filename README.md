@@ -11,4 +11,4 @@ Includes the following datasets:
 * `capacity`: Industrial production and capacity utilization
 * `credit`: Outstanding consumer credit
 
-To see vignette: [www.adam-acosta.com/fred-vignette/](adam-acosta.com/fred/vignette/)
+To see vignette: [www.adam-acosta.com/fred-vignette/](http://www.adam-acosta.com/fred/vignette/)
